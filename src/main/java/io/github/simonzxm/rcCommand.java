@@ -55,8 +55,9 @@ public class rcCommand extends CommandBase {
         } else {
             player.addChatMessage(new ChatComponentText(
                     "Right Clicker by Simonzxm\n" +
-                    "-how to use-\n" +
-                    "Type /rightclicker <slot> or /rc <slot>"));
+                    "-2 ways to use-\n" +
+                    "1. Type /rightclicker <slot> or /rc <slot>\n" +
+                    "2. Configure keybindings in Controls menu"));
         }
     }
 }

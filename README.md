@@ -2,10 +2,10 @@
 
 A mod for auto-right-clicking an item on the hotbar.
 
-## -how to use-
+Thanks [狼狗](https://space.bilibili.com/1461000070) for his help.
 
-Type /rightclicker <slot> or /rc <slot>
-  
-Temporarily, you can only use this mod by typing commands.
-  
-Also, you can use mods like CommandKeyBind.
+## - 2 ways to use -
+
+1. Type `/rightclicker <slot>` or `/rc <slot>`
+
+2. Configure keybindings in Controls menu
