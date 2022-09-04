@@ -8,6 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
@@ -15,7 +16,7 @@ import org.lwjgl.input.Keyboard;
 @Mod(modid = RightClicker.MODID , version = RightClicker.VERSION)
 public class RightClicker {
     public static final String MODID = "rightclicker";
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.2.1";
     public static KeyBinding[] keyBindings = new KeyBinding[9];
 
     @Mod.EventHandler
@@ -37,6 +38,12 @@ public class RightClicker {
         for (KeyBinding keyBinding : keyBindings) {
             ClientRegistry.registerKeyBinding(keyBinding);
         }
+    }
+
+    @Mod.EventHandler
+    public void preInit(FMLPreInitializationEvent event)
+    {
+        new ConfigLoader(event);
     }
 
     @SubscribeEvent

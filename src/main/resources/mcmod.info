@@ -3,7 +3,7 @@
   "modid": "rightclicker",
   "name": "Right Clicker",
   "description": "A mod for auto-right-clicking an item on the hotbar.",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "mcversion": "[1.8,1.8.9]",
   "url": "",
   "updateUrl": "",
