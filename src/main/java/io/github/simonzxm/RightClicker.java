@@ -5,6 +5,8 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -13,11 +15,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
-@Mod(modid = RightClicker.MODID , version = RightClicker.VERSION)
+import java.io.File;
+
+@Mod(modid = RightClicker.MODID , version = RightClicker.VERSION , guiFactory = "io.github.simonzxm.config.rcGuiFactory")
 public class RightClicker {
     public static final String MODID = "rightclicker";
-    public static final String VERSION = "1.2.1";
+    public static final String VERSION = "1.2.2";
     public static KeyBinding[] keyBindings = new KeyBinding[9];
+
+    public static int beforeWaitTime;
+    public static int afterWaitTime;
+
+    @Mod.Instance
+    public static RightClicker instance;
+
+    public Configuration config;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
@@ -26,15 +38,9 @@ public class RightClicker {
         MinecraftForge.EVENT_BUS.register(this);
 
         //register keybindings
-        keyBindings[0] = new KeyBinding("Right Click Hotbar Slot 1", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[1] = new KeyBinding("Right Click Hotbar Slot 2", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[2] = new KeyBinding("Right Click Hotbar Slot 3", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[3] = new KeyBinding("Right Click Hotbar Slot 4", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[4] = new KeyBinding("Right Click Hotbar Slot 5", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[5] = new KeyBinding("Right Click Hotbar Slot 6", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[6] = new KeyBinding("Right Click Hotbar Slot 7", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[7] = new KeyBinding("Right Click Hotbar Slot 8", Keyboard.KEY_NONE, "RightClicker");
-        keyBindings[8] = new KeyBinding("Right Click Hotbar Slot 9", Keyboard.KEY_NONE, "RightClicker");
+        for (int i = 0 ; i < 9 ; i++) {
+        keyBindings[i] = new KeyBinding("Right Click Hotbar Slot " + (i + 1), Keyboard.KEY_NONE, "RightClicker");
+    }
         for (KeyBinding keyBinding : keyBindings) {
             ClientRegistry.registerKeyBinding(keyBinding);
         }
@@ -43,7 +49,9 @@ public class RightClicker {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        new ConfigLoader(event);
+        MinecraftForge.EVENT_BUS.register(this);
+        config = new Configuration(new File(event.getModConfigurationDirectory(), "rightclicker.cfg"));
+        saveConfig();
     }
 
     @SubscribeEvent
@@ -57,6 +65,21 @@ public class RightClicker {
                 rcThread rcThread = new rcThread();
                 rcThread.start();
             }
+        }
+    }
+
+    private void saveConfig() {
+
+        beforeWaitTime = config.getInt("beforeWaitTime", Configuration.CATEGORY_GENERAL, 100, 0, Integer.MAX_VALUE, "Time to Wait before Right Click (ms)");
+        afterWaitTime = config.getInt("afterWaitTime", Configuration.CATEGORY_GENERAL, 100, 0, Integer.MAX_VALUE, "Time to Wait after Right Click (ms)");
+
+        config.save();
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.modID.equals(MODID)) {
+            saveConfig();
         }
     }
 }

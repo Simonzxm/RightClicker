@@ -10,6 +10,9 @@ import net.minecraft.util.ChatComponentText;
 import java.util.Collections;
 import java.util.List;
 
+import static io.github.simonzxm.RightClicker.afterWaitTime;
+import static io.github.simonzxm.RightClicker.beforeWaitTime;
+
 public class rcCommand extends CommandBase {
 
     @Override
@@ -73,7 +76,7 @@ class rcThread extends Thread{
         }
 
         try {
-            sleep(ConfigLoader.beforeWaitTime);
+            sleep(beforeWaitTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -83,7 +86,7 @@ class rcThread extends Thread{
         KeyBinding.onTick(minecraft.gameSettings.keyBindUseItem.getKeyCode());
 
         try {
-            sleep(ConfigLoader.afterWaitTime);
+            sleep(afterWaitTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
