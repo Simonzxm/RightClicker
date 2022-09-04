@@ -3,7 +3,6 @@ package io.github.simonzxm;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -47,7 +46,7 @@ public class RightClicker {
         for (int i = 0 ; i < 9 ; i++) {
             if (keyBindings[i].isPressed()) {
                 rcCommand.num = i + 1;
-                rcCommand.Slot = player.inventory.currentItem;//get current slot number
+                rcCommand.slot = player.inventory.currentItem;//get current slot number
                 rcThread rcThread = new rcThread();
                 rcThread.start();
             }

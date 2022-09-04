@@ -34,7 +34,7 @@ public class rcCommand extends CommandBase {
         return 0;
     }
 
-    public static int Slot;
+    public static int slot;
     public static int num;
 
     @Override
@@ -45,7 +45,7 @@ public class rcCommand extends CommandBase {
             num = Integer.parseInt(args[0]);
 
             if (num >= 1 & num <= 9) {
-                Slot = player.inventory.currentItem;//get current slot number
+                slot = player.inventory.currentItem;//get current slot number
                 rcThread rcThread = new rcThread();
                 rcThread.start();
 
@@ -68,12 +68,12 @@ class rcThread extends Thread{
     public void run() {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         //change slot to Slot
-        for (int i = 0; i < Math.abs(rcCommand.num - rcCommand.Slot - 1); i++) {
-            player.inventory.changeCurrentItem(rcCommand.Slot - rcCommand.num + 1);
+        for (int i = 0; i < Math.abs(rcCommand.num - rcCommand.slot - 1); i++) {
+            player.inventory.changeCurrentItem(rcCommand.slot - rcCommand.num + 1);
         }
 
         try {
-            sleep(100);
+            sleep(ConfigLoader.beforeWaitTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -83,14 +83,14 @@ class rcThread extends Thread{
         KeyBinding.onTick(minecraft.gameSettings.keyBindUseItem.getKeyCode());
 
         try {
-            sleep(100);
+            sleep(ConfigLoader.afterWaitTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         //change slot to primary
-        for (int j = 0; j < Math.abs(rcCommand.Slot - rcCommand.num + 1); j++) {
-            player.inventory.changeCurrentItem(rcCommand.num - rcCommand.Slot - 1);
+        for (int j = 0; j < Math.abs(rcCommand.slot - rcCommand.num + 1); j++) {
+            player.inventory.changeCurrentItem(rcCommand.num - rcCommand.slot - 1);
         }
 
     }
